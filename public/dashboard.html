@@ -4,80 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#4f46e5">
     <title>Attendance Dashboard</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        .sync-indicator {
-            position: fixed;
-            top: 8px;
-            right: 20px;
-            padding: 6px 16px;
-            border-radius: 9999px;
-            font-size: 13px;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            color: #64748b;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            z-index: 2000;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .dark-theme .sync-indicator {
-            background: rgba(15, 23, 42, 0.7);
-            border-color: rgba(255, 255, 255, 0.1);
-            color: #94a3b8;
-        }
-
-        .sync-indicator::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #94a3b8;
-        }
-
-        .sync-indicator.synced {
-            color: #10b981;
-            background: rgba(236, 253, 245, 0.85);
-            border-color: rgba(209, 250, 229, 0.8);
-        }
-
-        .dark-theme .sync-indicator.synced {
-            background: rgba(6, 78, 59, 0.4);
-            border-color: rgba(16, 185, 129, 0.3);
-            color: #34d399;
-        }
-
-        .sync-indicator.synced::before {
-            background: #10b981;
-        }
-
-        .sync-indicator.error {
-            color: #ef4444;
-            background: rgba(254, 242, 242, 0.85);
-            border-color: rgba(254, 226, 226, 0.8);
-        }
-
-        .dark-theme .sync-indicator.error {
-            background: rgba(127, 29, 29, 0.4);
-            border-color: rgba(239, 68, 68, 0.3);
-            color: #f87171;
-        }
-
-        .sync-indicator.error::before {
-            background: #ef4444;
-        }
-    </style>
     <link rel="stylesheet" href="tailwind.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -100,7 +34,7 @@
     </div>
 
     <!-- Sync Indicator Badge -->
-    <div id="sync-indicator" class="sync-indicator synced">Synced</div>
+    <div id="sync-indicator" class="sync-indicator synced" role="status" aria-live="polite">Synced</div>
 
     <div class="app-layout flex w-full min-h-screen">
         <!-- Sidebar Navigation -->
@@ -222,7 +156,7 @@
                     class="theme-toggle-container flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-400">
                     <span>Dark Theme</span>
                     <label class="switch">
-                        <input type="checkbox" id="theme-toggle">
+                        <input type="checkbox" id="theme-toggle" aria-label="Use dark theme">
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -259,16 +193,16 @@
 
             <!-- Dashboard Section -->
             <div id="dashboard-section" class="content-section">
-                <div class="dashboard-header desktop-only flex items-center justify-between mb-6">
+                <div class="dashboard-header">
                     <div>
-                        <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Dashboard
+                        <h2>Dashboard
                             Overview</h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Real-time stats and percentage
+                        <p>Real-time stats and percentage
                             predictors</p>
                     </div>
-                    <button
-                        class="info-btn w-8 h-8 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs hover:bg-blue-500/20 transition"
-                        data-help="dashboard" title="How to use Dashboard">i</button>
+                    <button type="button"
+                        class="info-btn"
+                        data-help="dashboard" title="How to use Dashboard" aria-label="How to use Dashboard">i</button>
                 </div>
                 <div class="section-container">
                     <div id="output2" class="text-slate-600 dark:text-slate-400 text-sm">Loading attendance data...
@@ -278,24 +212,25 @@
 
             <!-- Subjects Section -->
             <div id="subjects-section" class="content-section" style="display: none;">
-                <div class="dashboard-header desktop-only flex items-center justify-between mb-6">
+                <div class="dashboard-header">
                     <div>
-                        <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Subjects
-                            Management</h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Add, edit or remove enrolled subjects
-                        </p>
+                        <h2>Subjects Management</h2>
+                        <p>Add, edit or remove enrolled subjects</p>
                     </div>
-                    <button
-                        class="info-btn w-8 h-8 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs hover:bg-blue-500/20 transition"
-                        data-help="subjects" title="How to use Subjects">i</button>
+                    <button type="button"
+                        class="info-btn"
+                        data-help="subjects" title="How to use Subjects" aria-label="How to use Subjects">i</button>
                 </div>
-                <div class="section-container glass-card rounded-3xl p-6 shadow-xl border border-white/20">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Manage Subjects</h3>
-                    <div class="timetable-actions top-actions mb-4">
-                        <button type="button" id="add-subject-input-btn"
-                            class="add-subject-btn flex items-center justify-center" title="Add Subject">
+                <div class="section-container">
+                    <div class="card-heading-row">
+                        <div>
+                            <h3>Manage Subjects</h3>
+                            <p class="section-hint">Add the subjects you want to track.</p>
+                        </div>
+                        <button type="button" id="add-subject-input-btn" class="add-subject-btn" title="Add Subject"
+                            aria-label="Add subject">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                                stroke="currentColor" class="w-5 h-5">
+                                stroke="currentColor" class="w-5 h-5" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
                         </button>
@@ -309,23 +244,32 @@
 
             <!-- Timetable Section -->
             <div id="timetable-section" class="content-section" style="display: none;">
-                <div class="dashboard-header desktop-only flex items-center justify-between mb-6">
+                <div class="dashboard-header">
                     <div>
-                        <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Weekly
-                            Timetable</h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Set up daily subject slots and
-                            periods</p>
+                        <h2>Weekly Timetable</h2>
+                        <p>Set up daily subject slots and periods</p>
                     </div>
-                    <button
-                        class="info-btn w-8 h-8 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs hover:bg-blue-500/20 transition"
-                        data-help="timetable" title="How to use Timetable">i</button>
+                    <button type="button"
+                        class="info-btn"
+                        data-help="timetable" title="How to use Timetable" aria-label="How to use Timetable">i</button>
                 </div>
 
-                <div id="timetable-builder-container"
-                    class="section-container glass-card rounded-3xl p-6 shadow-xl border border-white/20 mb-8">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Timetable Builder</h3>
+                <div id="timetable-builder-container" class="section-container">
+                    <div class="card-heading-row">
+                        <div>
+                            <h3>Timetable Builder</h3>
+                            <p class="section-hint">Tap a period slot to assign a subject.</p>
+                        </div>
+                        <button type="button" id="add-period-btn" class="add-subject-btn" title="Add Period"
+                            aria-label="Add period">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                                stroke="currentColor" class="w-5 h-5" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </button>
+                    </div>
 
-                    <div class="day-switcher flex gap-2 overflow-x-auto pb-2">
+                    <div class="day-switcher" role="tablist" aria-label="Day of the week">
                         <button type="button" class="day-btn active" data-day="Monday">Mon</button>
                         <button type="button" class="day-btn" data-day="Tuesday">Tue</button>
                         <button type="button" class="day-btn" data-day="Wednesday">Wed</button>
@@ -335,30 +279,17 @@
                         <button type="button" class="day-btn" data-day="Sunday">Sun</button>
                     </div>
 
-                    <div class="timetable-actions top-actions my-4">
-                        <button type="button" id="add-period-btn"
-                            class="add-subject-btn flex items-center justify-center" title="Add Period">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                                stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
-                        </button>
-                    </div>
-
                     <div class="timetable-table-wrapper">
-                        <h4 id="current-day-label" class="font-semibold text-slate-800 dark:text-slate-200 mb-3">Monday
-                        </h4>
-                        <div id="daily-timetable-container"
-                            class="daily-row flex gap-3 overflow-x-auto py-2 min-h-22.5">
-                            <!-- Periods slots rendered by JS -->
+                        <h4 id="current-day-label">Monday</h4>
+                        <div id="daily-timetable-container" class="daily-row">
+                            <!-- Period slots rendered by JS -->
                         </div>
                     </div>
                 </div>
 
-                <div id="timetable-overview-container"
-                    class="section-container glass-card rounded-3xl p-6 shadow-xl border border-white/20">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Timetable Overview</h3>
-                    <div id="timetable-overview-content" class="overview-list text-sm">
+                <div id="timetable-overview-container" class="section-container">
+                    <h3>Timetable Overview</h3>
+                    <div id="timetable-overview-content" class="overview-list">
                         <!-- Overview summary rendered by JS -->
                     </div>
                 </div>
@@ -366,29 +297,33 @@
 
             <!-- Attendance Section -->
             <div id="attendance-section" class="content-section" style="display: none;">
-                <div class="dashboard-header desktop-only flex items-center justify-between mb-6">
+                <div class="dashboard-header">
                     <div>
-                        <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Attendance
-                            Logs</h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Calendar tracking and daily status
-                            marking</p>
+                        <h2>Attendance Logs</h2>
+                        <p>Calendar tracking and daily status marking</p>
                     </div>
-                    <button
-                        class="info-btn w-8 h-8 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs hover:bg-blue-500/20 transition"
-                        data-help="attendance" title="How to use Attendance">i</button>
+                    <button type="button"
+                        class="info-btn"
+                        data-help="attendance" title="How to use Attendance" aria-label="How to use Attendance">i</button>
                 </div>
-                <div class="section-container glass-card rounded-3xl p-6 shadow-xl border border-white/20">
+                <div class="section-container">
                     <div class="calendar-container">
-                        <div class="calendar-header flex items-center justify-between mb-4">
-                            <button id="prevMonth"
-                                class="cal-btn p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition">&lt;</button>
-                            <h3 id="monthDisplay" class="text-base font-bold text-slate-900 dark:text-white">Month Year
-                            </h3>
-                            <button id="nextMonth"
-                                class="cal-btn p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition">&gt;</button>
+                        <div class="calendar-header">
+                            <button type="button" id="prevMonth" class="cal-btn" aria-label="Previous month">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor" class="w-4 h-4" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                </svg>
+                            </button>
+                            <h3 id="monthDisplay">Month Year</h3>
+                            <button type="button" id="nextMonth" class="cal-btn" aria-label="Next month">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor" class="w-4 h-4" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
                         </div>
-                        <div
-                            class="calendar-weekdays grid grid-cols-7 text-center font-semibold text-xs text-slate-500 dark:text-slate-400 mb-2">
+                        <div class="calendar-weekdays" aria-hidden="true">
                             <div>Sun</div>
                             <div>Mon</div>
                             <div>Tue</div>
@@ -397,33 +332,43 @@
                             <div>Fri</div>
                             <div>Sat</div>
                         </div>
-                        <div id="calendarDays" class="calendar-days grid grid-cols-7 gap-1">
+                        <div id="calendarDays" class="calendar-days">
                             <!-- Calendar days generated by JS -->
                         </div>
                     </div>
 
-                    <div
-                        class="day-attendance-container mt-8 pt-6 border-t border-slate-200/50 dark:border-slate-800/60">
-                        <div class="day-attendance-header flex items-center justify-between mb-3">
-                            <button id="prevDay"
-                                class="cal-btn p-2 rounded-xl bg-slate-100 dark:bg-slate-800 transition">&lt;</button>
-                            <h3 id="selectedDateDisplay" class="text-base font-bold text-slate-900 dark:text-white">Date
-                                Display</h3>
-                            <button id="nextDay"
-                                class="cal-btn p-2 rounded-xl bg-slate-100 dark:bg-slate-800 transition">&gt;</button>
+                    <div class="day-attendance-container">
+                        <div class="day-attendance-header">
+                            <button type="button" id="prevDay" class="cal-btn" aria-label="Previous day">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor" class="w-4 h-4" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                </svg>
+                            </button>
+                            <h3 id="selectedDateDisplay">Date Display</h3>
+                            <button type="button" id="nextDay" class="cal-btn" aria-label="Next day">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor" class="w-4 h-4" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
                         </div>
-                        <div class="bulk-actions flex flex-wrap gap-2 justify-center mb-6">
-                            <button class="bulk-btn btn-present-mini" id="bulk-present-btn">Mark All Present</button>
-                            <button class="bulk-btn btn-absent-mini" id="bulk-absent-btn">Mark All Absent</button>
-                            <button class="bulk-btn btn-cancelled-mini" id="bulk-holiday-btn">Holiday</button>
-                            <button class="bulk-btn btn-clear-mini" id="bulk-clear-btn">Clear All Today</button>
-                            <button class="bulk-btn btn-add-extra" id="add-extra-class-btn">Add Extra Class</button>
-                            <button class="bulk-btn btn-present-mini" id="toggleMarkerBtn"
-                            style="background: #2563eb; color: #fff;">Set Start Marker Here</button>
+                        <div class="bulk-actions">
+                            <button type="button" class="bulk-btn btn-present-mini" id="bulk-present-btn">Mark All
+                                Present</button>
+                            <button type="button" class="bulk-btn btn-absent-mini" id="bulk-absent-btn">Mark All
+                                Absent</button>
+                            <button type="button" class="bulk-btn btn-cancelled-mini" id="bulk-holiday-btn">Holiday</button>
+                            <button type="button" class="bulk-btn btn-clear-mini" id="bulk-clear-btn">Clear All
+                                Today</button>
+                            <button type="button" class="bulk-btn btn-add-extra" id="add-extra-class-btn">Add Extra
+                                Class</button>
+                            <button type="button" class="bulk-btn btn-present-mini" id="toggleMarkerBtn">Set Start Marker
+                                Here</button>
                         </div>
-                        <p class="text-lg text-slate-500 dark:text-slate-400 text-center mb-4">Click on
-                            a subject card to cycle attendance status</p>
-                        <div id="daySlotsWrapper" class="day-slots-wrapper space-y-3">
+                        <p class="attendance-hint">Tap a subject card to mark it Present, Absent, Cancelled, or Clear.
+                        </p>
+                        <div id="daySlotsWrapper" class="day-slots-wrapper">
                             <!-- Day slots generated by JS -->
                         </div>
                     </div>
@@ -432,35 +377,29 @@
 
             <!-- Profile Section -->
             <div id="profile-section" class="content-section" style="display: none;">
-                <div class="dashboard-header desktop-only flex items-center justify-between mb-6">
+                <div class="dashboard-header">
                     <div>
-                        <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">User Profile
-                        </h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Account credentials and preference
-                            settings</p>
+                        <h2>User Profile</h2>
+                        <p>Account credentials and preference settings</p>
                     </div>
-                    <button
-                        class="info-btn w-8 h-8 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs hover:bg-blue-500/20 transition"
-                        data-help="profile" title="How to use Profile">i</button>
+                    <button type="button"
+                        class="info-btn"
+                        data-help="profile" title="How to use Profile" aria-label="How to use Profile">i</button>
                 </div>
-                <div class="section-container glass-card rounded-3xl p-6 shadow-xl border border-white/20 space-y-6">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Profile Information</h3>
+                <div class="section-container profile-panel">
+                    <h3>Profile Information</h3>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Full
-                            Name</label>
-                        <input type="text" id="profile-name-input" placeholder="Your Name"
-                            class="glass-input w-full px-4 py-2.5 rounded-xl border text-sm">
+                    <div class="profile-field">
+                        <label for="profile-name-input">Full Name</label>
+                        <input type="text" id="profile-name-input" placeholder="Your Name" class="glass-input">
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">User ID
-                            (Read-only)</label>
-                        <div class="user-id-container flex items-center justify-between px-4 py-2.5 rounded-xl bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-sm font-mono"
-                            id="copy-user-id-container" title="Copy User ID">
+                    <div class="profile-field">
+                        <label>User ID <span class="profile-field-note">(read-only)</span></label>
+                        <div class="user-id-container" id="copy-user-id-container" title="Copy User ID">
                             <span id="profile-id-display">Loading...</span>
-                            <button type="button" class="copy-btn-inner text-slate-400 hover:text-blue-500 transition"
-                                title="Copy to clipboard">
+                            <button type="button" class="copy-btn-inner" title="Copy to clipboard"
+                                aria-label="Copy user ID">
                                 <svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16" fill="currentColor">
                                     <path
                                         d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
@@ -473,143 +412,119 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Email
-                            Address</label>
-                        <div
-                            class="user-id-container px-4 py-2.5 rounded-xl bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-sm font-medium">
+                    <div class="profile-field">
+                        <label>Email Address</label>
+                        <div class="user-id-container">
                             <span id="profile-email-display">Loading...</span>
                         </div>
-                        <div class="flex flex-wrap gap-2.5 mt-3">
+                        <div class="profile-actions">
                             <button type="button" id="open-change-email-btn"
-                                class="px-4 py-2 rounded-xl bg-blue-600/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-xs font-semibold hover:bg-blue-600/20 transition">Change
-                                Email</button>
+                                class="profile-action-btn profile-action-email">Change Email</button>
                             <button type="button" id="open-change-password-btn"
-                                class="px-4 py-2 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-semibold hover:bg-amber-500/20 transition">Change
-                                Password</button>
+                                class="profile-action-btn profile-action-password">Change Password</button>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-4 pt-2">
-                        <button type="button" id="save-profile-btn"
-                            class="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm shadow-lg shadow-blue-600/25 hover:bg-blue-700 transition">Save
-                            Profile</button>
-                        <span class="text-xs text-slate-400 italic">* Manual save required</span>
+                    <div class="profile-save-row">
+                        <button type="button" id="save-profile-btn" class="profile-save-btn">Save Profile</button>
+                        <span class="profile-save-hint">* Manual save required</span>
                     </div>
                 </div>
             </div>
 
             <!-- Help / How to Use Section -->
             <div id="help-section" class="content-section" style="display: none;">
-                <div class="dashboard-header desktop-only mb-6">
-                    <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Help Guide</h2>
+                <div class="dashboard-header">
+                    <h2>Help Guide</h2>
                 </div>
-                <div class="section-container glass-card rounded-3xl p-6 shadow-xl border border-white/20">
-                    <div class="help-guide space-y-6">
-                        <div>
-                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Simple 3-Step Setup</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Quickly calculate and predict your
-                                attendance status!</p>
+                <div class="section-container">
+                    <div class="help-guide">
+                        <div class="help-intro">
+                            <h3>Simple 3-Step Setup</h3>
+                            <p>Quickly calculate and predict your attendance status.</p>
                         </div>
 
-                        <div
-                            class="help-step p-4 rounded-2xl bg-slate-100/60 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/50">
-                            <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 flex items-center gap-2">
-                                <span
-                                    class="w-6 h-6 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-xs">1</span>
+                        <div class="help-step">
+                            <h4>
+                                <span>1</span>
                                 Step 1: Add Your Subjects
                             </h4>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Click on
-                                <strong>Subjects</strong> in the menu. Type class names and press <strong>+</strong> to
-                                add them.</p>
+                            <p>Open <strong>Subjects</strong> from the menu. Type each class name and press
+                                <strong>+</strong> to add it.</p>
                         </div>
 
-                        <div
-                            class="help-step p-4 rounded-2xl bg-slate-100/60 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/50">
-                            <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 flex items-center gap-2">
-                                <span
-                                    class="w-6 h-6 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-xs">2</span>
+                        <div class="help-step">
+                            <h4>
+                                <span>2</span>
                                 Step 2: Build Your Timetable
                             </h4>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Click on
-                                <strong>Timetable</strong>. Tap period slots to assign subjects for each day of the
-                                week.</p>
+                            <p>Open <strong>Timetable</strong> and tap period slots to assign subjects for each day of
+                                the week.</p>
                         </div>
 
-                        <div
-                            class="help-step p-4 rounded-2xl bg-slate-100/60 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/50">
-                            <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 flex items-center gap-2">
-                                <span
-                                    class="w-6 h-6 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-xs">3</span>
+                        <div class="help-step">
+                            <h4>
+                                <span>3</span>
                                 Step 3: Mark Daily Attendance
                             </h4>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Click on
-                                <strong>Attendance</strong>. Tap subject cards to toggle status: <strong
-                                    class="text-emerald-500">Present (Green)</strong> or <strong
-                                    class="text-rose-500">Absent (Red)</strong>.</p>
+                            <p>Open <strong>Attendance</strong> and tap a subject card to mark it <strong
+                                    class="text-success">Present</strong>, <strong class="text-danger">Absent</strong>,
+                                cancelled, or clear.</p>
                         </div>
 
-                        <div class="detailed-help-header pt-4">
-                            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-4">Detailed Feature Guide
-                            </h3>
+                        <div class="detailed-help-header">
+                            <h3>Detailed Feature Guide</h3>
                         </div>
 
-                        <div id="help-dashboard"
-                            class="help-step p-4 rounded-2xl bg-slate-100/60 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/50">
-                            <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 flex items-center gap-2">
+                        <div id="help-dashboard" class="help-step">
+                            <h4>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.75" stroke="currentColor" class="w-4 h-4 text-blue-500">
+                                    stroke-width="1.75" stroke="currentColor" class="help-step-icon" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
                                 </svg>
                                 Dashboard
                             </h4>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Displays total
-                                attendance percentage, subject cards, and automatic predictors advising how many classes
-                                are required to maintain target percentages.</p>
+                            <p>Displays your total attendance percentage, subject cards, and automatic predictors that
+                                show how many classes you need to maintain your target.</p>
                         </div>
 
-                        <div id="help-subjects"
-                            class="help-step p-4 rounded-2xl bg-slate-100/60 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/50">
-                            <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 flex items-center gap-2">
+                        <div id="help-subjects" class="help-step">
+                            <h4>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.75" stroke="currentColor" class="w-4 h-4 text-purple-500">
+                                    stroke-width="1.75" stroke="currentColor" class="help-step-icon" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25" />
                                 </svg>
                                 Subjects
                             </h4>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Add or delete subject
-                                names. Changes update dynamically across your timetable and calendar.</p>
+                            <p>Add or delete subjects. Changes update dynamically across your timetable and calendar.</p>
                         </div>
 
-                        <div id="help-timetable"
-                            class="help-step p-4 rounded-2xl bg-slate-100/60 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/50">
-                            <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 flex items-center gap-2">
+                        <div id="help-timetable" class="help-step">
+                            <h4>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.75" stroke="currentColor" class="w-4 h-4 text-emerald-500">
+                                    stroke-width="1.75" stroke="currentColor" class="help-step-icon" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 Timetable
                             </h4>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Build your weekly
-                                schedule. Click <strong>+</strong> to add period slots for any day of the week.</p>
+                            <p>Build your weekly schedule. Click <strong>+</strong> to add period slots for any day of
+                                the week.</p>
                         </div>
 
-                        <div id="help-attendance"
-                            class="help-step p-4 rounded-2xl bg-slate-100/60 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/50">
-                            <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-1 flex items-center gap-2">
+                        <div id="help-attendance" class="help-step">
+                            <h4>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.75" stroke="currentColor" class="w-4 h-4 text-amber-500">
+                                    stroke-width="1.75" stroke="currentColor" class="help-step-icon" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                Attendance & Markers
+                                Attendance &amp; Markers
                             </h4>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Tap calendar dates to
-                                view or edit logs. Set a Start Marker to define when logging begins. Use bulk actions
-                                for quick marking.</p>
+                            <p>Tap calendar dates to view or edit logs. Set a Start Marker to define when logging
+                                begins, and use bulk actions for quick marking.</p>
                         </div>
                     </div>
                 </div>
@@ -634,44 +549,46 @@
     <script type="module" src="dashboard.js"></script>
 
     <!-- Change Email Modal -->
-    <div id="changeEmailModal" class="modal-backdrop" style="display:none;">
+    <div id="changeEmailModal" class="modal-backdrop" style="display:none;" role="dialog" aria-modal="true"
+        aria-labelledby="change-email-title">
         <div class="custom-modal">
-            <span class="modal-icon flex items-center justify-center text-blue-500">
+            <span class="modal-icon modal-icon-email">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75"
-                    stroke="currentColor" class="w-8 h-8">
+                    stroke="currentColor" class="w-8 h-8" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
             </span>
-            <h3 class="modal-title">Change Email ID</h3>
-            <div style="margin: 20px 0; text-align: left;">
-                <label style="display:block; margin-bottom:5px;">New Email ID</label>
-                <input type="email" id="new-email-input"
-                    style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd;"
-                    placeholder="Enter new email">
+            <h3 id="change-email-title" class="modal-title">Change Email ID</h3>
+            <div class="modal-field">
+                <label for="new-email-input" class="modal-label">New Email ID</label>
+                <input type="email" id="new-email-input" class="modal-input" placeholder="Enter new email"
+                    autocomplete="email">
             </div>
             <div class="modal-buttons">
-                <button id="cancel-change-email-btn" class="modal-btn modal-btn-secondary">Cancel</button>
-                <button id="confirm-change-email-btn" class="modal-btn modal-btn-primary">Update Email</button>
+                <button type="button" id="cancel-change-email-btn" class="modal-btn modal-btn-secondary">Cancel</button>
+                <button type="button" id="confirm-change-email-btn" class="modal-btn modal-btn-primary">Update
+                    Email</button>
             </div>
         </div>
     </div>
 
     <!-- Change Password Modal -->
-    <div id="changePasswordModal" class="modal-backdrop" style="display:none;">
+    <div id="changePasswordModal" class="modal-backdrop" style="display:none;" role="dialog" aria-modal="true"
+        aria-labelledby="change-password-title">
         <div class="custom-modal">
-            <span class="modal-icon flex items-center justify-center text-amber-500">
+            <span class="modal-icon modal-icon-warning">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75"
-                    stroke="currentColor" class="w-8 h-8">
+                    stroke="currentColor" class="w-8 h-8" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                 </svg>
             </span>
-            <h3 class="modal-title">Change Password</h3>
+            <h3 id="change-password-title" class="modal-title">Change Password</h3>
 
-            <div id="password-step-1" style="display: block;">
-                <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--text-secondary);">We will send a
-                    One-Time Password (OTP) to your registered email address to verify identity.</p>
+            <div id="password-step-1">
+                <p class="modal-help-text">We will send a One-Time Password (OTP) to your registered email address to
+                    verify your identity.</p>
                 <div class="modal-buttons">
                     <button type="button" id="cancel-change-password-btn"
                         class="modal-btn modal-btn-secondary">Cancel</button>
@@ -679,35 +596,37 @@
                 </div>
             </div>
 
-            <div id="password-step-2" style="display: none; margin: 20px 0; text-align: left;">
-                <p style="margin-bottom: 15px; font-size: 0.95rem; font-weight: 500; color: #34d399;">OTP sent! Please
-                    check your inbox.</p>
-                <label style="display:block; margin-bottom:5px; font-size: 0.95rem; font-weight: 600;">Enter OTP</label>
-                <input type="text" id="password-otp-input"
-                    style="width: 150px; padding: 8px; border-radius: 8px; border: 1px solid var(--border-color, #ddd); margin-bottom: 15px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; font-weight: bold; background-color: var(--input-bg, #fff);"
-                    placeholder="6-digit" maxlength="6">
-
-                <label style="display:block; margin-bottom:5px; font-size: 0.95rem; font-weight: 600;">New Password
-                    <span style="font-size: 0.8rem; color: #888; font-weight: normal; margin-left: 5px;">(6 characters
-                        minimum)</span></label>
-                <div style="position: relative; width: 100%;">
-                    <input type="password" id="new-password-input"
-                        style="width:100%; padding:8px; padding-right:35px; border-radius:8px; border:1px solid #ddd; box-sizing: border-box; display: block;"
-                        placeholder="Enter new password">
-                    <span id="new-password-toggle"
-                        style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; user-select: none;"
-                        title="Toggle Password">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75"
-                            stroke="currentColor" class="w-5 h-5 text-slate-400">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </span>
+            <div id="password-step-2" style="display: none;">
+                <p class="modal-success-text">OTP sent! Please check your inbox.</p>
+                <div class="modal-field">
+                    <label for="password-otp-input" class="modal-label">Enter OTP</label>
+                    <input type="text" id="password-otp-input" class="modal-input modal-otp-input"
+                        placeholder="6-digit" maxlength="6" inputmode="numeric" pattern="[0-9]*"
+                        autocomplete="one-time-code">
                 </div>
 
-                <div class="modal-buttons"
-                    style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                <div class="modal-field">
+                    <label for="new-password-input" class="modal-label">
+                        New Password
+                        <span class="modal-label-note">(6 characters minimum)</span>
+                    </label>
+                    <div class="modal-password-wrapper">
+                        <input type="password" id="new-password-input" class="modal-input"
+                            placeholder="Enter new password" autocomplete="new-password">
+                        <button type="button" id="new-password-toggle" class="modal-password-toggle"
+                            aria-label="Show password">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75"
+                                stroke="currentColor" class="w-5 h-5" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-buttons">
                     <button type="button" id="cancel-change-password-step2-btn"
                         class="modal-btn modal-btn-secondary">Cancel</button>
                     <button type="button" class="modal-btn modal-btn-primary" id="btn-confirm-password">Confirm
@@ -718,30 +637,30 @@
     </div>
 
     <!-- Extra Class Modal -->
-    <div id="extraClassModal" class="modal-backdrop" style="display:none;">
+    <div id="extraClassModal" class="modal-backdrop" style="display:none;" role="dialog" aria-modal="true"
+        aria-labelledby="extra-class-title">
         <div class="custom-modal">
-            <span class="modal-icon flex items-center justify-center text-emerald-500">
+            <span class="modal-icon modal-icon-success">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-8 h-8">
+                    stroke="currentColor" class="w-8 h-8" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
             </span>
-            <h3 class="modal-title">Add Extra Class</h3>
-            <div style="margin: 20px 0; text-align: left;">
-                <label style="display:block; margin-bottom:5px;">Subject</label>
-                <select id="extra-subject-select"
-                    style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd;"></select>
-
-                <label style="display:block; margin-top:15px; margin-bottom:5px;">Status</label>
-                <select id="extra-status-select"
-                    style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd;">
+            <h3 id="extra-class-title" class="modal-title">Add Extra Class</h3>
+            <div class="modal-field">
+                <label for="extra-subject-select" class="modal-label">Subject</label>
+                <select id="extra-subject-select" class="modal-select"></select>
+            </div>
+            <div class="modal-field">
+                <label for="extra-status-select" class="modal-label">Status</label>
+                <select id="extra-status-select" class="modal-select">
                     <option value="present">Present</option>
                     <option value="absent">Absent</option>
                 </select>
             </div>
             <div class="modal-buttons">
-                <button id="cancel-extra-class-btn" class="modal-btn modal-btn-secondary">Cancel</button>
-                <button id="confirm-extra-class-btn" class="modal-btn modal-btn-primary">Save</button>
+                <button type="button" id="cancel-extra-class-btn" class="modal-btn modal-btn-secondary">Cancel</button>
+                <button type="button" id="confirm-extra-class-btn" class="modal-btn modal-btn-primary">Save</button>
             </div>
         </div>
     </div>

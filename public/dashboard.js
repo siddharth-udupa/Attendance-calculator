@@ -71,7 +71,7 @@ window.showSection = async (sectionId, navLink) => {
         mobileHeaderTitle.textContent = navLink.textContent;
     }
 
-    if (window.innerWidth <= 768 && typeof window.closeSidebar === 'function') {
+    if (window.innerWidth <= 900 && typeof window.closeSidebar === 'function') {
         window.closeSidebar();
     }
 };
@@ -506,33 +506,22 @@ function checkAndDisplayPendingWarning() {
     // Create the banner container
     const banner = document.createElement('div');
     banner.className = 'pending-warning-banner';
-    banner.style.cssText = `
-        background: rgba(245, 158, 11, 0.12);
-        border: 1px solid rgba(245, 158, 11, 0.35);
-        border-left: 5px solid #f59e0b;
-        border-radius: 8px;
-        padding: 14px 18px;
-        margin-bottom: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 15px;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-    `;
 
     const dayName = pendingInfo.date.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
 
     banner.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 12px; text-align: left;">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" style="width: 24px; height: 24px; color: #f59e0b; flex-shrink: 0;">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+        <div class="pending-warning-content">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75"
+                stroke="currentColor" class="pending-warning-icon" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
             </svg>
-            <div>
-                <strong style="color: #d97706; font-size: 1.05rem; display: block; margin-bottom: 3px;">Pending Attendance Logs</strong>
-                <span style="font-size: 0.9rem; color: var(--text-secondary);">You have unlogged attendance for <strong>${dayName}</strong>.</span>
+            <div class="pending-warning-copy">
+                <strong>Pending Attendance Logs</strong>
+                <span>You have unlogged attendance for <strong>${dayName}</strong>.</span>
             </div>
         </div>
-        <button id="resolve-pending-btn" class="bulk-btn btn-present-mini" style="background: #f59e0b; color: white; border: none; width: auto; padding: 8px 16px; margin: 0; font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s ease;">Log Now</button>
+        <button id="resolve-pending-btn" class="bulk-btn pending-warning-action">Log Now</button>
     `;
 
     // Insert banner at the very top of output2

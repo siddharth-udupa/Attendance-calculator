@@ -128,7 +128,7 @@ async function signupRequest() {
             document.getElementById('signup-step-2').style.display = 'block';
             const otpInput = document.getElementById('signup-otp-input');
             if (otpInput) otpInput.focus();
-            output.innerHTML = `<p style="color: #4ade80;">${response.message}</p>`;
+            output.innerHTML = `<p class="success-text">${response.message}</p>`;
         }
     }
     catch (err) {
@@ -176,7 +176,7 @@ async function signupVerifyRequest() {
             localStorage.setItem("token", response.token);
             localStorage.setItem("userId", response.userId);
 
-            output.innerHTML = `<p style="color: #4ade80;">${response.message} Redirecting...</p>`;
+            output.innerHTML = `<p class="success-text">${response.message} Redirecting...</p>`;
             setTimeout(() => {
                 window.location.href = `/dashboard.html`;
             }, 1000);
@@ -409,7 +409,7 @@ async function resetPasswordWithOTP() {
         if (!res.ok) {
             output.innerHTML = `<p class="error-text">${data.message || 'Failed to reset password'}</p>`;
         } else {
-            output.innerHTML = `<p style="color: #4ade80;">Password reset successfully! Redirecting to Log In...</p>`;
+            output.innerHTML = `<p class="success-text">Password reset successfully! Redirecting to Log In...</p>`;
             setTimeout(() => {
                 hideForgotPassword();
             }, 2000);

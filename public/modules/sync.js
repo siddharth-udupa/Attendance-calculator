@@ -21,19 +21,18 @@ function updateStatus(status, isError = false) {
     if (!syncStatusElement) return;
 
     syncStatusElement.textContent = status;
-    syncStatusElement.className = 'sync-indicator ' + (isError ? 'error' : '');
+    syncStatusElement.className = 'sync-indicator';
 
-    if (status === SyncStatus.IDLE) {
+    if (isError || status === SyncStatus.ERROR) {
+        syncStatusElement.classList.add('error');
+    } else if (status === SyncStatus.IDLE) {
         syncStatusElement.classList.add('synced');
     } else if (status === SyncStatus.UNSAVED) {
-        syncStatusElement.style.color = '#f59e0b';
-        syncStatusElement.style.background = '#fef3c7';
-        syncStatusElement.style.borderColor = '#fde68a';
-    } else {
-        syncStatusElement.classList.remove('synced');
-        syncStatusElement.style.color = '';
-        syncStatusElement.style.background = '';
-        syncStatusElement.style.borderColor = '';
+        syncStatusElement.classList.add('unsaved');
+    } else if (status === SyncStatus.SAVING) {
+        syncStatusElement.classList.add('saving');
+    } else if (status === SyncStatus.OFFLINE) {
+        syncStatusElement.classList.add('offline');
     }
 }
 
@@ -74,7 +73,7 @@ export function updateGlobalSaveButton() {
     if (!btn) return;
 
     if (isDirty()) {
-        btn.style.display = 'block';
+        btn.style.display = 'flex';
     } else {
         btn.style.display = 'none';
     }

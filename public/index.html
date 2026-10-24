@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#4f46e5">
     <title>Attendance Calculator - Authentication</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
@@ -12,484 +14,223 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="tailwind.css">
     <link rel="stylesheet" href="style.css">
-    <style>
-        :root {
-            --bg-color: #f8fafc;
-            --text-color: #0f172a;
-            --orb-1-color: rgba(59, 130, 246, 0.22);
-            --orb-2-color: rgba(139, 92, 246, 0.22);
-            --card-bg: rgba(255, 255, 255, 0.75);
-            --card-border: rgba(255, 255, 255, 0.9);
-            --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
-            --input-bg: rgba(255, 255, 255, 0.8);
-            --input-border: rgba(0, 0, 0, 0.08);
-            --input-text: #0f172a;
-            --input-placeholder: rgba(100, 116, 139, 0.7);
-            --input-focus-bg: rgba(255, 255, 255, 1);
-            --btn-bg: #2563eb;
-            --btn-hover: #1d4ed8;
-            --btn-shadow: rgba(37, 99, 235, 0.25);
-            --link-color: #2563eb;
-            --link-hover: #1d4ed8;
-            --text-muted: #64748b;
-            --heading-color: #0f172a;
-            --label-color: #334155;
-            --success-color: #10b981;
-
-            --toggle-bg: #e2e8f0;
-            --toggle-border: rgba(0, 0, 0, 0.05);
-            --toggle-thumb: white;
-            --toggle-thumb-border: rgba(0, 0, 0, 0.1);
-            --eye-color: #64748b;
-            --eye-hover: #0f172a;
-        }
-
-        .dark-theme {
-            --bg-color: #090d16;
-            --text-color: #f8fafc;
-            --orb-1-color: rgba(37, 99, 235, 0.2);
-            --orb-2-color: rgba(124, 58, 237, 0.2);
-            --card-bg: rgba(15, 23, 42, 0.6);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            --input-bg: rgba(15, 23, 42, 0.4);
-            --input-border: rgba(255, 255, 255, 0.12);
-            --input-text: #f8fafc;
-            --input-placeholder: rgba(148, 163, 184, 0.6);
-            --input-focus-bg: rgba(15, 23, 42, 0.7);
-            --btn-bg: #2563eb;
-            --btn-hover: #3b82f6;
-            --btn-shadow: rgba(37, 99, 235, 0.35);
-            --link-color: #60a5fa;
-            --link-hover: #93c5fd;
-            --text-muted: #94a3b8;
-            --heading-color: #f8fafc;
-            --label-color: #cbd5e1;
-            --success-color: #34d399;
-
-            --toggle-bg: rgba(30, 41, 59, 0.8);
-            --toggle-border: rgba(255, 255, 255, 0.1);
-            --toggle-thumb: rgba(255, 255, 255, 0.9);
-            --toggle-thumb-border: rgba(255, 255, 255, 0.2);
-            --eye-color: #94a3b8;
-            --eye-hover: #f8fafc;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-
-        .bg-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('images/Background.png');
-            background-size: cover;
-            background-position: center;
-            z-index: -20;
-        }
-
-        .bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            opacity: 0.15;
-            z-index: -15;
-            transition: background-color 0.4s ease;
-        }
-
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active {
-            -webkit-box-shadow: 0 0 0 30px var(--bg-color) inset !important;
-            -webkit-text-fill-color: var(--input-text) !important;
-            transition: background-color 5000s ease-in-out 0s;
-        }
-
-        .error-text {
-            color: #ef4444;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            font-weight: 500;
-        }
-
-        .custom-theme-toggle {
-            position: fixed;
-            top: 24px;
-            right: 24px;
-            z-index: 50;
-        }
-
-        .toggle-label {
-            display: inline-flex;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .toggle-track {
-            width: 58px;
-            height: 32px;
-            background-color: var(--toggle-bg);
-            border: 1px solid var(--toggle-border);
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 6px;
-            transition: background-color 0.4s ease, border-color 0.4s ease;
-        }
-
-        .toggle-thumb {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 24px;
-            height: 24px;
-            background-color: var(--toggle-thumb);
-            border: 1px solid var(--toggle-thumb-border);
-            border-radius: 50%;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
-            z-index: 10;
-        }
-
-        #theme-toggle:checked~.toggle-thumb {
-            transform: translateX(26px);
-        }
-
-        .ambient-orb-1 {
-            position: absolute;
-            top: -20%;
-            left: -10%;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            background-color: var(--orb-1-color);
-            filter: blur(120px);
-            transition: background-color 0.5s ease;
-        }
-
-        .ambient-orb-2 {
-            position: absolute;
-            bottom: -10%;
-            right: -10%;
-            width: 550px;
-            height: 550px;
-            border-radius: 50%;
-            background-color: var(--orb-2-color);
-            filter: blur(110px);
-            transition: background-color 0.5s ease;
-        }
-
-        .primary-btn {
-            background-color: var(--btn-bg);
-            color: white;
-            border-radius: 9999px;
-            padding: 14px 24px;
-            width: 100%;
-            font-weight: 600;
-            box-shadow: 0 4px 20px var(--btn-shadow);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 16px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .primary-btn:hover {
-            background-color: var(--btn-hover);
-            transform: translateY(-1px);
-        }
-
-        .primary-btn:active {
-            transform: scale(0.98);
-        }
-
-        .link-text {
-            color: var(--link-color);
-            font-weight: 600;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .link-text:hover {
-            color: var(--link-hover);
-            text-decoration: underline;
-        }
-
-        .heading-text {
-            color: var(--heading-color);
-        }
-
-        .label-text {
-            color: var(--label-color);
-        }
-
-        .muted-text {
-            color: var(--text-muted);
-        }
-
-        .success-text {
-            color: var(--success-color);
-        }
-
-        .eye-icon {
-            color: var(--eye-color);
-            transition: color 0.2s ease;
-            margin-top: -6px;
-            margin-right: -20px;
-        }
-
-        .eye-icon:hover {
-            color: var(--eye-hover);
-        }
-    </style>
 </head>
 
-<body class="overflow-x-hidden font-sans antialiased relative min-h-screen">
+<body class="auth-page overflow-x-hidden font-sans antialiased relative min-h-screen">
 
-    <!-- Background Image & Overlay -->
-    <div class="bg-image"></div>
-    <div class="bg-overlay"></div>
+    <!-- Background image and overlay -->
+    <div class="bg-image" aria-hidden="true"></div>
+    <div class="bg-overlay" aria-hidden="true"></div>
 
-    <!-- Ambient background glowing orbs -->
-    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <!-- Ambient background orbs -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
         <div class="ambient-orb-1 animate-glow"></div>
         <div class="ambient-orb-2 animate-glow"></div>
     </div>
 
-    <!-- Custom Theme toggle -->
+    <!-- Theme toggle -->
     <div class="custom-theme-toggle">
         <label class="toggle-label">
-            <input type="checkbox" id="theme-toggle" class="sr-only" style="display: none;">
-            <div class="toggle-track">
-                <!-- Sun SVG for Light Mode -->
-                <span style="padding-left: 2px;">
+            <input type="checkbox" id="theme-toggle" class="theme-toggle-input" aria-label="Use dark theme">
+            <span class="toggle-track">
+                <span class="toggle-icon toggle-icon--sun">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                        stroke="currentColor" class="w-3.5 h-3.5 text-amber-500">
+                        stroke="currentColor" class="w-3.5 h-3.5" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
                     </svg>
                 </span>
-                <!-- Moon SVG for Dark Mode -->
-                <span style="padding-right: 2px;">
+                <span class="toggle-icon toggle-icon--moon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                        stroke="currentColor" class="w-3.5 h-3.5 text-slate-400">
+                        stroke="currentColor" class="w-3.5 h-3.5" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
                     </svg>
                 </span>
-            </div>
-            <div class="toggle-thumb"></div>
+            </span>
+            <span class="toggle-thumb" aria-hidden="true"></span>
         </label>
     </div>
 
-    <!-- Main container -->
     <main class="min-h-screen w-full flex items-center justify-center px-4 py-12">
-        <!-- Auth Card (Glassmorphism) -->
-        <section
-            class="w-full max-w-md glass-card rounded-3xl p-8 sm:p-10 relative overflow-hidden shadow-2xl backdrop-blur-xl border border-white/20">
+        <section class="glass-card auth-card" aria-labelledby="auth-brand-name">
+            <div class="auth-card-accent" aria-hidden="true"></div>
 
-            <!-- Top border glow gradient -->
-            <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-blue-500/0 via-blue-500/50 to-blue-500/0">
-            </div>
-
-            <!-- Header Branding -->
-            <div class="text-center mb-8">
-                <div
-                    class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-600/10 border border-blue-500/20 text-blue-500 mb-3">
+            <!-- Branding -->
+            <header class="auth-brand">
+                <div class="auth-brand-mark" aria-hidden="true">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                     </svg>
                 </div>
-                <h1 class="text-xl font-bold tracking-tight heading-text">Attendance Calc</h1>
-            </div>
+                <h1 id="auth-brand-name" class="auth-brand-name">Attendance Calc</h1>
+            </header>
 
-            <!-- Sign In -->
-            <div id="signin-section" class="space-y-6">
-                <h2 class="text-2xl font-bold text-center tracking-tight heading-text">Welcome Back</h2>
+            <!-- Sign in -->
+            <div id="signin-section" class="auth-form">
+                <div>
+                    <h2 class="auth-title">Welcome Back</h2>
+                    <p class="auth-subtitle">Log in to view your attendance and predictors.</p>
+                </div>
 
                 <div class="space-y-4">
-                    <div>
-                        <label for="signin-email" class="block text-sm font-medium mb-1.5 label-text">Email</label>
+                    <div class="auth-field">
+                        <label for="signin-email" class="auth-label">Email</label>
                         <input id="signin-email" type="email" placeholder="name@example.com" autocomplete="username"
-                            class="glass-input w-full px-4 py-3 rounded-xl border text-sm transition">
+                            class="glass-input">
                     </div>
 
-                    <div>
-                        <label for="signin-password"
-                            class="block text-sm font-medium mb-1.5 label-text">Password</label>
-                        <div class="relative w-full flex items-center">
+                    <div class="auth-field">
+                        <label for="signin-password" class="auth-label">Password</label>
+                        <div class="auth-password-field">
                             <input id="signin-password" type="password" placeholder="••••••••"
-                                autocomplete="current-password"
-                                class="glass-input w-full px-4 py-3 rounded-xl border text-sm transition pr-10">
-                            <span id="signin-password-toggle"
-                                class="absolute right-2.5 top-1/2 -translate-y-1/2 eye-icon cursor-pointer select-none z-10 flex items-center justify-center p-1"
-                                title="Toggle Password">
+                                autocomplete="current-password" class="glass-input">
+                            <button type="button" id="signin-password-toggle" class="eye-icon"
+                                aria-label="Show password">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.75" stroke="currentColor" class="w-5 h-5">
+                                    stroke-width="1.75" stroke="currentColor" class="w-5 h-5" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
-                            </span>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <button type="button" id="signin-btn" class="primary-btn">
-                    Log In
-                </button>
+                <button type="button" id="signin-btn" class="primary-btn">Log In</button>
 
-                <div class="flex flex-col items-center gap-2.5 pt-4 text-sm">
-                    <div class="muted-text">
-                        Don't have an account? <span class="auth-toggle-link link-text">Sign Up</span>
+                <div class="auth-footer">
+                    <div class="auth-footer-row">
+                        <span>Don't have an account?</span>
+                        <button type="button" class="link-text auth-toggle-link">Sign Up</button>
                     </div>
-                    <span id="forgot-password-link" class="link-text text-xs">Forgot Password?</span>
+                    <button type="button" id="forgot-password-link" class="link-text auth-link-secondary">
+                        Forgot Password?
+                    </button>
                 </div>
 
-                <div id="signin-output" class="text-sm text-center"></div>
+                <div id="signin-output" class="auth-output" aria-live="polite"></div>
             </div>
 
-            <!-- Forgot Password -->
-            <div id="forgot-password-section" class="hidden space-y-6">
-                <h2 class="text-2xl font-bold text-center tracking-tight heading-text">Reset Password</h2>
-                <p class="text-xs text-center muted-text -mt-3">We'll send a 6-digit OTP to your registered email.</p>
+            <!-- Forgot password -->
+            <div id="forgot-password-section" class="hidden auth-form">
+                <div>
+                    <h2 class="auth-title">Reset Password</h2>
+                    <p class="auth-subtitle">We'll send a 6-digit OTP to your registered email.</p>
+                </div>
 
                 <div id="forgot-step-1" class="space-y-4">
-                    <div>
-                        <label for="forgot-email" class="block text-sm font-medium mb-1.5 label-text">Registered
-                            Email</label>
+                    <div class="auth-field">
+                        <label for="forgot-email" class="auth-label">Registered Email</label>
                         <input id="forgot-email" type="email" placeholder="name@example.com" autocomplete="email"
-                            class="glass-input w-full px-4 py-3 rounded-xl border text-sm transition">
+                            class="glass-input">
                     </div>
-                    <button type="button" id="forgot-otp-btn" class="primary-btn">
-                        Send OTP
-                    </button>
+                    <button type="button" id="forgot-otp-btn" class="primary-btn">Send OTP</button>
                 </div>
 
-                <div id="forgot-step-2" class="hidden space-y-4">
-                    <p
-                        class="text-xs font-semibold text-center success-text bg-emerald-500/10 py-2 rounded-lg border border-emerald-500/20">
-                        OTP sent! Check your inbox.</p>
+                <div id="forgot-step-2" class="space-y-4" style="display: none;">
+                    <p class="auth-notice">OTP sent! Check your inbox.</p>
 
-                    <div>
-                        <label for="forgot-otp-input" class="block text-sm font-medium mb-1.5 label-text">Enter
-                            OTP</label>
+                    <div class="auth-field">
+                        <label for="forgot-otp-input" class="auth-label">Enter OTP</label>
                         <input id="forgot-otp-input" type="text" placeholder="000000" maxlength="6"
-                            class="glass-input w-full px-4 py-3 rounded-xl border text-sm text-center font-bold tracking-widest">
+                            inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code"
+                            class="glass-input otp-input">
                     </div>
 
-                    <div>
-                        <label for="forgot-new-password" class="block text-sm font-medium mb-1.5 label-text">New
-                            Password</label>
-                        <div class="relative w-full flex items-center">
+                    <div class="auth-field">
+                        <label for="forgot-new-password" class="auth-label">New Password</label>
+                        <div class="auth-password-field">
                             <input id="forgot-new-password" type="password" placeholder="••••••••"
-                                autocomplete="new-password"
-                                class="glass-input w-full px-4 py-3 rounded-xl border text-sm transition pr-10">
-                            <span id="forgot-new-password-toggle"
-                                class="absolute right-2.5 top-1/2 -translate-y-1/2 eye-icon cursor-pointer select-none z-10 flex items-center justify-center p-1"
-                                title="Toggle Password">
+                                autocomplete="new-password" class="glass-input">
+                            <button type="button" id="forgot-new-password-toggle" class="eye-icon"
+                                aria-label="Show password">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.75" stroke="currentColor" class="w-5 h-5">
+                                    stroke-width="1.75" stroke="currentColor" class="w-5 h-5" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
-                            </span>
+                            </button>
                         </div>
                     </div>
 
-                    <button type="button" id="forgot-reset-btn" class="primary-btn">
-                        Confirm Reset
-                    </button>
+                    <button type="button" id="forgot-reset-btn" class="primary-btn">Confirm Reset</button>
                 </div>
 
-                <div class="text-center pt-2">
-                    <span id="back-to-signin-link" class="link-text text-xs">Back to Log In</span>
+                <div class="auth-footer">
+                    <button type="button" id="back-to-signin-link" class="link-text">Back to Log In</button>
                 </div>
-                <div id="forgot-output" class="text-sm text-center"></div>
+                <div id="forgot-output" class="auth-output" aria-live="polite"></div>
             </div>
 
-            <!-- Sign Up -->
-            <div id="signup-section" class="hidden space-y-6">
-                <h2 class="text-2xl font-bold text-center tracking-tight heading-text">Create Account</h2>
+            <!-- Sign up -->
+            <div id="signup-section" class="hidden auth-form">
+                <div>
+                    <h2 class="auth-title">Create Account</h2>
+                    <p class="auth-subtitle">Start tracking your attendance in a minute.</p>
+                </div>
 
                 <div id="signup-step-1" class="space-y-4">
-                    <div>
-                        <label for="signup-name" class="block text-sm font-medium mb-1.5 label-text">Full Name</label>
+                    <div class="auth-field">
+                        <label for="signup-name" class="auth-label">Full Name</label>
                         <input id="signup-name" type="text" placeholder="John Doe" autocomplete="name"
-                            class="glass-input w-full px-4 py-3 rounded-xl border text-sm transition">
+                            class="glass-input">
                     </div>
-                    <div>
-                        <label for="signup-email" class="block text-sm font-medium mb-1.5 label-text">Email</label>
+                    <div class="auth-field">
+                        <label for="signup-email" class="auth-label">Email</label>
                         <input id="signup-email" type="email" placeholder="name@example.com" autocomplete="email"
-                            class="glass-input w-full px-4 py-3 rounded-xl border text-sm transition">
+                            class="glass-input">
                     </div>
-                    <div>
-                        <label for="signup-password"
-                            class="block text-sm font-medium mb-1.5 label-text">Password</label>
-                        <div class="relative w-full flex items-center">
+                    <div class="auth-field">
+                        <label for="signup-password" class="auth-label">Password</label>
+                        <div class="auth-password-field">
                             <input id="signup-password" type="password" placeholder="••••••••"
-                                autocomplete="new-password"
-                                class="glass-input w-full px-4 py-3 rounded-xl border text-sm transition pr-10">
-                            <span id="signup-password-toggle"
-                                class="absolute right-2.5 top-1/2 -translate-y-1/2 eye-icon cursor-pointer select-none z-10 flex items-center justify-center p-1"
-                                title="Toggle Password">
+                                autocomplete="new-password" class="glass-input">
+                            <button type="button" id="signup-password-toggle" class="eye-icon"
+                                aria-label="Show password">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.75" stroke="currentColor" class="w-5 h-5">
+                                    stroke-width="1.75" stroke="currentColor" class="w-5 h-5" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
-                            </span>
+                            </button>
                         </div>
                     </div>
-                    <button type="button" id="signup-btn" class="primary-btn">
-                        Sign Up
-                    </button>
+                    <button type="button" id="signup-btn" class="primary-btn">Sign Up</button>
                 </div>
 
-                <div id="signup-step-2" class="hidden space-y-4">
-                    <p
-                        class="text-xs font-semibold text-center success-text bg-emerald-500/10 py-2 rounded-lg border border-emerald-500/20">
-                        OTP sent! Check your inbox.</p>
+                <div id="signup-step-2" class="space-y-4" style="display: none;">
+                    <p class="auth-notice">OTP sent! Check your inbox.</p>
 
-                    <div>
-                        <label for="signup-otp-input" class="block text-sm font-medium mb-1.5 label-text">Enter
-                            OTP</label>
+                    <div class="auth-field">
+                        <label for="signup-otp-input" class="auth-label">Enter OTP</label>
                         <input id="signup-otp-input" type="text" placeholder="000000" maxlength="6"
-                            class="glass-input w-full px-4 py-3 rounded-xl border text-sm text-center font-bold tracking-widest">
+                            inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code"
+                            class="glass-input otp-input">
                     </div>
 
-                    <button type="button" id="signup-verify-btn" class="primary-btn">
-                        Verify & Sign Up
-                    </button>
+                    <button type="button" id="signup-verify-btn" class="primary-btn">Verify &amp; Sign Up</button>
 
-                    <div class="text-center pt-1">
-                        <span id="signup-back-link" class="link-text text-xs">Change details</span>
+                    <div class="auth-footer">
+                        <button type="button" id="signup-back-link" class="link-text">Change details</button>
                     </div>
                 </div>
 
-                <div class="text-center text-sm pt-4">
-                    <span class="muted-text">Already have an account? </span>
-                    <span id="signup-login-toggle" class="auth-toggle-link link-text">Log In</span>
+                <div class="auth-footer">
+                    <div class="auth-footer-row">
+                        <span>Already have an account?</span>
+                        <button type="button" id="signup-login-toggle" class="link-text auth-toggle-link">Log In</button>
+                    </div>
                 </div>
-                <div id="signup-output" class="text-sm text-center"></div>
+                <div id="signup-output" class="auth-output" aria-live="polite"></div>
             </div>
 
         </section>

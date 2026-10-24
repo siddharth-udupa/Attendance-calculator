@@ -272,7 +272,7 @@ export function renderCalendar() {
         if (hasCancelled) markersContainer.innerHTML += '<span class="marker marker-c">C</span>';
         if (hasPending) markersContainer.innerHTML += '<span class="marker marker-p">P</span>';
         if (startMarkerStr && startMarkerStr === dateStr) {
-            markersContainer.innerHTML += '<span class="marker marker-s" style="background: #3b82f6; color: white; display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; padding: 0;">S</span>';
+            markersContainer.innerHTML += '<span class="marker marker-s">S</span>';
         }
 
         dayDiv.appendChild(markersContainer);
@@ -311,7 +311,7 @@ export function renderDayAttendance() {
     const dayName = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
     const daySubjects = periodsData[dayName] || [];
     if (daySubjects.length === 0) {
-        slotsWrapper.innerHTML = '<p style="color: #64748b; font-style: italic; padding: 20px;">No subjects scheduled.</p>';
+        slotsWrapper.innerHTML = '<p class="empty-state">No subjects scheduled.</p>';
         return;
     }
     const selectedDateStr = formatDate(selectedDate);
@@ -415,9 +415,9 @@ function renderExtraClasses(selectedDateStr, slotsWrapper, claimedLogIds = new S
 
             slot.innerHTML = `
                 <div class="slot-content">
-                    <div style="display:flex; flex-direction:column;">
+                    <div class="extra-slot-meta">
                         <span class="slot-subject-name">${log.subject_name}</span>
-                        <small style="color: #64748b; font-size: 0.7rem;">Extra Class</small>
+                        <span class="extra-class-label">Extra Class</span>
                     </div>
                     <div class="slot-status-badge status-${log.status}">${log.status}</div>
                 </div>
