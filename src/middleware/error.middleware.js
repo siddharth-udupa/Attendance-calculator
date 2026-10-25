@@ -1,10 +1,15 @@
 import { logger } from "../utils/logger.js";
 
 export const errorHandler = (err, req, res, next) => {
-  const status = err.status || 500;
-  const message = err.message || "Internal Server Error";
+  const status = err.status || err.statusCode || 500;
+  const isServerError = status >= 500;
 
-  logger.error(`API Error: ${message}`, err, {
+  // Never expose internal error details (e.g. raw SQL queries) to clients.
+  const message = isServerError
+    ? "Something went wrong. Please try again later."
+    : err.message || "Request failed";
+
+  logger.error(`API Error: ${err.message || message}`, err, {
     path: req.path,
     method: req.method,
     status

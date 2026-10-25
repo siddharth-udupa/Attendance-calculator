@@ -416,18 +416,52 @@ function displaySubjects(subjects) {
     subjects.forEach(s => {
         const div = document.createElement("div");
         div.className = "subject-card";
-        let predictorHtml = "";
-        if (s.status_message) {
-            const predictorClass = s.classes_needed > 0 ? "predictor-warning" : "predictor-safe";
-            predictorHtml = `<span class="${predictorClass}">Predictor: ${s.status_message}</span>`;
+
+        const total = Number(s.total_classes) || 0;
+        const attended = Number(s.attended_classes) || 0;
+        const percentage = Number(s.attendance_percentage) || 0;
+        let bunkHtml = "";
+
+        if (total === 0) {
+            bunkHtml = `
+                <div class="subject-bunk subject-bunk-empty">
+                    <span class="subject-bunk-text">
+                        <strong>No classes held yet</strong>
+                        <span>Your safe bunk count will appear here.</span>
+                    </span>
+                </div>
+            `;
+        } else if (percentage >= 75) {
+            const bunkAvailable = Math.max(0, Math.floor(attended / 0.75 - total));
+            bunkHtml = `
+                <div class="subject-bunk subject-bunk-safe">
+                    <span class="subject-bunk-value">${bunkAvailable}</span>
+                    <span class="subject-bunk-text">
+                        <strong>${bunkAvailable === 1 ? "class" : "classes"} you can bunk</strong>
+                        <span>and stay at 75% or above</span>
+                    </span>
+                </div>
+            `;
+        } else {
+            const classesNeeded = Math.max(0, Math.ceil((0.75 * total - attended) / 0.25));
+            bunkHtml = `
+                <div class="subject-bunk subject-bunk-warning">
+                    <span class="subject-bunk-value">${classesNeeded}</span>
+                    <span class="subject-bunk-text">
+                        <strong>${classesNeeded === 1 ? "class" : "classes"} to attend</strong>
+                        <span>to reach 75% attendance</span>
+                    </span>
+                </div>
+            `;
         }
+
         div.innerHTML = `
             <div class="subject-header">
                 <span class="subject-name">${s.subject_name}</span>
-                <span class="subject-percent ${s.attendance_percentage < 75 ? 'text-danger' : 'text-success'}">${s.attendance_percentage}%</span>
+                <span class="subject-percent ${percentage < 75 ? 'text-danger' : 'text-success'}">${s.attendance_percentage}%</span>
             </div>
             <div class="subject-stats">Total: ${s.total_classes} | Attended: ${s.attended_classes}</div>
-            <div>${predictorHtml}</div>
+            ${bunkHtml}
         `;
         output2.appendChild(div);
     });
@@ -436,15 +470,24 @@ function displaySubjects(subjects) {
 function displayOverall(overall) {
     const output2 = document.getElementById("output2");
     if (!output2 || !overall) return;
-    const overallDiv = `
-        <div class="overall-card">
-            <h3>Overall Attendance</h3>
-            Total Classes: ${overall.total_classes}<br>
-            Attended: ${overall.attended_classes}<br>
-            Percentage: ${overall.percentage}%
+
+    const total = Number(overall.total_classes) || 0;
+    const attended = Number(overall.attended_classes) || 0;
+
+    const overallDiv = document.createElement("div");
+    overallDiv.className = "overall-card";
+    overallDiv.innerHTML = `
+        <div class="overall-main">
+            <span class="overall-label">Overall Attendance</span>
+            <span class="overall-percentage">${overall.percentage}%</span>
+            <span class="overall-meta">${attended} of ${total} classes attended</span>
         </div>
     `;
-    output2.innerHTML += overallDiv;
+
+    // Keep the overall summary at the top of the dashboard, above the subject cards.
+    const existingOverall = output2.querySelector(".overall-card");
+    if (existingOverall) existingOverall.remove();
+    output2.insertBefore(overallDiv, output2.firstChild);
 }
 
 // Sidebar toggle & helper handlers (migrated from inline HTML script)

@@ -64,7 +64,7 @@ async function signinRequest() {
         const response = await post.json();
 
         if (!post.ok) {
-            output.innerHTML = `<p class="error-text">${response.message}</p>`;
+            output.innerHTML = `<p class="error-text">${response.message || "Sign in failed. Please try again."}</p>`;
         } else {
             // Save token and userId for session management
             localStorage.setItem("token", response.token);
